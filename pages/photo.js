@@ -1,25 +1,54 @@
+import react, { Component } from 'react'
+import fetch from 'isomorphic-unfetch'
 import Layout from '../components/Layout';
 import Photo from '../components/Photo';
 import CommentsFunctionality from '../components/InteractiveButtons'
-import getPhotos from '../data/data.js'	
 
-
-const PhotoPage = (props) => (
-    <Layout>
+export default class extends Component {
+    static async getInitialProps({query}) {
+        const {id} = {...query}
+        const res = await fetch(`http://localhost:4000/photos/${id}`)
+        const image = await res.json() 
+        return { image } 
+    }
+    componentWillMount() {
+        this.setState({
+            image: this.props.image
+        })
+    }
+    submitComments(e) {
+        e.preventDefault();
+        const user = this.refs.author.value
+        const body = this.refs.comment.value 
+        const comments = this.state.image.comments 
+        comments.push({user, body})
+        this.setState({comments})
+        fetch(`http://localhost:4000/photos/${this.state.image.id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.image)
+        })
+    }
+    render(){
+        return(
+            <Layout>
         <div className="container">
             <div className="display_image">
-                <img src={`/static/art/${props.image.image}.jpg`} alt=''/>
+                <img src={`/static/art/${this.state.image.image}.jpg`} alt=''/>
                 <CommentsFunctionality />
             </div>
             <div className="comments">
-                <p className="tagline">{props.image.tagline}</p>
+                <p className="tagline">{this.state.image.tagline}</p>
                 {
-                    props.image.comments.map((comment, key) => <p key={key}><strong>{comment.user}:</strong>{comment.body}</p>)
+                    this.state.image.comments.map((comment, key) => <p key={key}><strong>{comment.user}:</strong>{comment.body}</p>)
                 }
-                <form className="comment-form" >
-                    <input type="text"placeholder="Author" />
-                    <input type="text"  placeholder="comment..." />
-                    <input type="submit" hidden />
+                <form className="comment-form" onSubmit={(e)=> this.submitComments(e) }>
+                    <input type="text" ref="author" placeholder="Author" />
+                    <input type="text" ref="comment"  placeholder="comment..." />
+                    <input type="submit" />
                 </form>
             </div>
         </div>
@@ -87,14 +116,7 @@ const PhotoPage = (props) => (
             }
         `}</style>
     </Layout>
-)
-
-PhotoPage.getInitialProps = async ({query}) => {
-    // could fetch data here
-    let {id} = {...query}
-    let image = getPhotos().find(m => m.id == id)
-
-    return { image } 
+        )
+    }
 }
 
-export default PhotoPage

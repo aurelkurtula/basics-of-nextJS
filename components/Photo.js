@@ -10,7 +10,10 @@ export default (props) => {
                 </Link>
                 <div className="meta">
                     <p className="tagline">{props.data.tagline}</p>
-                    <CommentsFunctionality likes={props.data.likes} />
+                    <CommentsFunctionality 
+                        LikesEntry={() => props.LikesEntry(props.data.id)}
+                        commentsNum={props.data.comments.length}
+                        likes={props.data.likes} />
                 </div>
             </div>
             <style>{`

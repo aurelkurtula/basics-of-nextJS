@@ -1,8 +1,8 @@
 import { MdModeComment, MdFavoriteBorder } from 'react-icons/md'
-export default ({likes}) => (
+export default ({likes, LikesEntry, commentsNum}) => (
     <div className="meta">
-        <a href="/" className="heart"><MdFavoriteBorder />34</a>
-        <a href="/"><MdModeComment />{likes}</a>
+        <button className="heart" onClick={LikesEntry} ><MdFavoriteBorder />{likes}</button>
+        <p><MdModeComment />{ commentsNum }</p>
         <style>{`
         .meta{
             padding: 5px;
@@ -13,8 +13,9 @@ export default ({likes}) => (
         .meta p {
             padding-top: 9px;
         }
-        .meta a {
-            text-decoration: none;
+        .meta button, .meta p{
+            border: none;
+            background: transparent;
             margin-top: 5px;
             float: left;
             width: 50%;
@@ -22,6 +23,7 @@ export default ({likes}) => (
             padding: 9px 0;
             margin-top: 10px;
             color: var(--green);
+            outline: none;
         }
         .meta svg {
             font-size: 1.3rem;
