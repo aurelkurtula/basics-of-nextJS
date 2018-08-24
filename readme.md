@@ -13,7 +13,7 @@ npm start # run next.js
 #### Tutorials so far:
 
 - [Introduction to the basics of Next.js](https://dev.to/aurelkurtula/introduction-to-the-basics-of-nextjs-1loa) - branch : [part1](https://github.com/aurelkurtula/basics-of-nextJS/tree/part1)
-- [Retrieving data from an external API]()
+- [Retrieving data from an external API](https://dev.to/aurelkurtula/introduction-to-the-basics-of-nextjs---part-two-pad)
 
 
 To illustrate the features I have decided to create a prototype that resembles instagram 
