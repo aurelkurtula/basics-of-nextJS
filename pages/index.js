@@ -5,7 +5,7 @@ import Photo from '../components/Photo';
 
 export default class extends Component {
   static async getInitialProps() {
-    const res = await fetch('http://localhost:4000/photos')
+    const res = await fetch('http://localhost:3000/api/photos')
     const images = await res.json()
     return { images }
   }
@@ -22,7 +22,7 @@ export default class extends Component {
     this.setState({
       images
     })
-    fetch(`http://localhost:4000/photos/${id}`, {
+    fetch(`http://localhost:3000/api/photos/${id}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -38,7 +38,7 @@ export default class extends Component {
           this.state.images.map((image, key) => 
             <Photo 
             LikesEntry={this.LikesEntry.bind(this)}
-            id={image.id} 
+            id={image._id} 
             key={key} 
             data={image} />)
          }

@@ -7,7 +7,7 @@ import CommentsFunctionality from '../components/InteractiveButtons'
 export default class extends Component {
     static async getInitialProps({query}) {
         const {id} = {...query}
-        const res = await fetch(`http://localhost:4000/photos/${id}`)
+        const res = await fetch(`http://localhost:3000/api/photos/${id}`)
         const image = await res.json() 
         return { image } 
     }
@@ -23,7 +23,7 @@ export default class extends Component {
         const comments = this.state.image.comments 
         comments.push({user, body})
         this.setState({comments})
-        fetch(`http://localhost:4000/photos/${this.state.image.id}`, {
+        fetch(`http://localhost:3000/api/photos/${this.state.image._id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
